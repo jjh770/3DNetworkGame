@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PlayerMoveAbility : MonoBehaviour
+public class PlayerMoveAbility : PlayerAbility
 {
     [SerializeField] private float _moveSpeed = 7f;
     [SerializeField] private float _jumpForce = 2.5f;
@@ -13,13 +13,16 @@ public class PlayerMoveAbility : MonoBehaviour
 
     private CharacterController _characterController;
 
-    private void Awake()
+
+    private void Start()
     {
         _characterController = GetComponent<CharacterController>();
     }
 
-    private void Update()
+    protected override void OnUpdate()
     {
+        if (!_owner.PhotonView.IsMine) return;
+
         float v = Input.GetAxis("Vertical");
         float h = Input.GetAxis("Horizontal");
 

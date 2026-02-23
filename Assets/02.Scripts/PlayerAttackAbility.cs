@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PlayerAttackAbility : MonoBehaviour
+public class PlayerAttackAbility : PlayerAbility
 {
     private float ATTACK_COOLTIME = 0.6f;
     private float _attackTimer = 0f;
@@ -10,8 +10,10 @@ public class PlayerAttackAbility : MonoBehaviour
     private int _comboStep = 0;
     private float _lastAttackTime = 0f;
 
-    private void Update()
+    protected override void OnUpdate()
     {
+        if (!_owner.PhotonView.IsMine) return;
+
         if (_animator == null) return;
 
         _attackTimer += Time.deltaTime;
