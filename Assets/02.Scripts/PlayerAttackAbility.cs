@@ -36,7 +36,9 @@ public class PlayerAttackAbility : MonoBehaviour
             _comboStep++;
 
             if (_comboStep > 3)
+            {
                 _comboStep = 1;
+            }
 
             _animator.SetTrigger($"Attack{_comboStep}");
         }

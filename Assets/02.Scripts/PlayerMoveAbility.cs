@@ -8,6 +8,9 @@ public class PlayerMoveAbility : MonoBehaviour
     [SerializeField] private float _yVelocity = 0f;
     [SerializeField] private Animator _animator;
 
+    private static readonly int _moveXHash = Animator.StringToHash("MoveX");
+    private static readonly int _moveZHash = Animator.StringToHash("MoveZ");
+
     private CharacterController _characterController;
 
     private void Awake()
@@ -25,8 +28,8 @@ public class PlayerMoveAbility : MonoBehaviour
 
         if (_animator != null)
         {
-            _animator.SetFloat("MoveX", direction.x);
-            _animator.SetFloat("MoveZ", direction.z);
+            _animator.SetFloat(_moveXHash, direction.x);
+            _animator.SetFloat(_moveZHash, direction.z);
         }
 
         Vector3 moveDirection = transform.TransformDirection(direction);
