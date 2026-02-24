@@ -21,8 +21,6 @@ public class PlayerMoveAbility : PlayerAbility
 
     protected override void OnUpdate()
     {
-        if (!_owner.PhotonView.IsMine) return;
-
         float v = Input.GetAxis("Vertical");
         float h = Input.GetAxis("Horizontal");
 

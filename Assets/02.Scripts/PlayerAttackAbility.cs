@@ -12,8 +12,6 @@ public class PlayerAttackAbility : PlayerAbility
 
     protected override void OnUpdate()
     {
-        if (!_owner.PhotonView.IsMine) return;
-
         if (_animator == null) return;
 
         _attackTimer += Time.deltaTime;

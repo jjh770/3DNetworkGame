@@ -10,9 +10,7 @@ public class PlayerRotateAbility : PlayerAbility
 
     private void Start()
     {
-        if (!_owner.PhotonView.IsMine) return;
         Cursor.lockState = CursorLockMode.Locked;
-
 
         CinemachineCamera vcam = GameObject.Find("FollowCamera").GetComponent<CinemachineCamera>();
         vcam.Follow = _cameraRoot.transform;
@@ -20,8 +18,6 @@ public class PlayerRotateAbility : PlayerAbility
 
     protected override void OnUpdate()
     {
-        if (!_owner.PhotonView.IsMine) return;
-
         _mx += Input.GetAxis("Mouse X") * _rotationSpeed * Time.deltaTime;
         _my += Input.GetAxis("Mouse Y") * _rotationSpeed * Time.deltaTime;
 
