@@ -10,6 +10,8 @@ public class PlayerRotateAbility : PlayerAbility
 
     private void Start()
     {
+        if (!_owner.PhotonView.IsMine) return;
+
         Cursor.lockState = CursorLockMode.Locked;
 
         CinemachineCamera vcam = GameObject.Find("FollowCamera").GetComponent<CinemachineCamera>();

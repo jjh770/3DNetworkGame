@@ -1,16 +1,35 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MinimapCamera : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private Transform _target;
+    [SerializeField] private float _offsetY = 30f;
+
+    private void OnEnable()
     {
-        
+        PlayerController.OnLocalPlayerSpawned += SetTarget;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDisable()
     {
-        
+        PlayerController.OnLocalPlayerSpawned -= SetTarget;
+    }
+
+    private void SetTarget(Transform target)
+    {
+        _target = target;
+    }
+
+    private void LateUpdate()
+    {
+        if (_target == null) return;
+
+        Vector3 targetPosition = _target.position;
+        Vector3 finalPosition = targetPosition + new Vector3(0f, _offsetY, 0f);
+        transform.position = finalPosition;
+
+        Vector3 targetAngle = _target.eulerAngles;
+        targetAngle.x = 90;
+        transform.eulerAngles = targetAngle;
     }
 }

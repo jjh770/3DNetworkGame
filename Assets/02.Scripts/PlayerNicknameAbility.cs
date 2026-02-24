@@ -1,13 +1,12 @@
 ﻿using TMPro;
 using UnityEngine;
 
-public class NewMonoBehaviourScript : PlayerAbility
+public class PlayerNicknameAbility : PlayerAbility
 {
     [SerializeField] private TextMeshProUGUI _nicknameTextUI;
 
     private void Start()
     {
-
         _nicknameTextUI.text = _owner.PhotonView.Owner.NickName;
         if (_owner.PhotonView.IsMine)
         {

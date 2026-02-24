@@ -13,6 +13,7 @@ public class PlayerStat
     [Header("공격 관련 스탯")]
     public float AttackCoolTime;
     public float AttackStamina;
+    public float AttackDamage;
 
     [Header("점프 관련 스탯")]
     public float JumpPower;
