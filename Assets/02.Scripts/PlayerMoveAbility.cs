@@ -2,17 +2,14 @@
 
 public class PlayerMoveAbility : PlayerAbility
 {
-    [SerializeField] private float _moveSpeed = 7f;
-    [SerializeField] private float _jumpForce = 2.5f;
+    [SerializeField] private Animator _animator;
     private const float GRAVITY = 9.8f;
     [SerializeField] private float _yVelocity = 0f;
-    [SerializeField] private Animator _animator;
 
     private static readonly int _moveXHash = Animator.StringToHash("MoveX");
     private static readonly int _moveZHash = Animator.StringToHash("MoveZ");
 
     private CharacterController _characterController;
-
 
     private void Start()
     {
@@ -36,13 +33,36 @@ public class PlayerMoveAbility : PlayerAbility
         Vector3 moveDirection = transform.TransformDirection(direction);
 
         _yVelocity -= GRAVITY * Time.deltaTime;
-        moveDirection.y = _yVelocity;
 
         if (Input.GetKey(KeyCode.Space) && _characterController.isGrounded)
         {
-            _yVelocity = _jumpForce;
+            if (_owner.Stat.TryConsumeStamina(_owner.Stat.JumpStamina))
+            {
+                _yVelocity = _owner.Stat.JumpPower;
+            }
+            else
+            {
+                Debug.Log("스태미나 부족 : 점프");
+            }
         }
 
-        _characterController.Move(moveDirection * Time.deltaTime * _moveSpeed);
+        moveDirection.y = _yVelocity;
+
+        bool isRunning = Input.GetKey(KeyCode.LeftShift) && _owner.Stat.TryConsumeStamina(Time.deltaTime * _owner.Stat.RunStamina);
+
+        if (isRunning)
+        {
+            moveDirection *= _owner.Stat.RunSpeed;
+        }
+        else
+        {
+            moveDirection *= _owner.Stat.MoveSpeed;
+            if (!Input.GetKey(KeyCode.LeftShift))
+            {
+                _owner.Stat.RecoverStamina(Time.deltaTime * _owner.Stat.GainStamina);
+            }
+        }
+
+        _characterController.Move(moveDirection * Time.deltaTime);
     }
 }

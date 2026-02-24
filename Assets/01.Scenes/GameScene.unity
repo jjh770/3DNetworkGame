@@ -16168,10 +16168,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 23826958082754696, guid: ca680233563bc924489979e26b954a2c, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2980579449884641573, guid: ca680233563bc924489979e26b954a2c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -15.385474
@@ -16211,26 +16207,6 @@ PrefabInstance:
     - target: {fileID: 2980579449884641573, guid: ca680233563bc924489979e26b954a2c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7737906842134260134, guid: ca680233563bc924489979e26b954a2c, type: 3}
-      propertyPath: m_fontSize
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7737906842134260134, guid: ca680233563bc924489979e26b954a2c, type: 3}
-      propertyPath: m_fontAsset
-      value: 
-      objectReference: {fileID: 11400000, guid: e31acb60aee4e1648adcea9cff278a68, type: 2}
-    - target: {fileID: 7737906842134260134, guid: ca680233563bc924489979e26b954a2c, type: 3}
-      propertyPath: m_fontSizeBase
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7737906842134260134, guid: ca680233563bc924489979e26b954a2c, type: 3}
-      propertyPath: m_TextWrappingMode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7737906842134260134, guid: ca680233563bc924489979e26b954a2c, type: 3}
-      propertyPath: m_hasFontAssetChanged
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8085252071174617430, guid: ca680233563bc924489979e26b954a2c, type: 3}
       propertyPath: sceneViewId

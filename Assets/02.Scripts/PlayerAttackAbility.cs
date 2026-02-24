@@ -2,7 +2,6 @@
 
 public class PlayerAttackAbility : PlayerAbility
 {
-    private float ATTACK_COOLTIME = 0.6f;
     private float _attackTimer = 0f;
 
     [SerializeField] private Animator _animator;
@@ -21,15 +20,27 @@ public class PlayerAttackAbility : PlayerAbility
             _comboStep = 0;
         }
 
-        if (Input.GetMouseButtonDown(0) && _attackTimer >= ATTACK_COOLTIME)
+        if (Input.GetMouseButtonDown(0) && _attackTimer >= _owner.Stat.AttackCoolTime)
         {
+            if (!_owner.Stat.TryConsumeStamina(_owner.Stat.AttackStamina))
+            {
+                Debug.Log("스태미나 부족 : 공격");
+                return;
+            }
+
             _attackTimer = 0f;
 
             _animator.SetTrigger($"Attack{Random.Range(1, 4)}");
         }
 
-        if (Input.GetMouseButtonDown(1) && _attackTimer >= ATTACK_COOLTIME)
+        if (Input.GetMouseButtonDown(1) && _attackTimer >= _owner.Stat.AttackCoolTime)
         {
+            if (!_owner.Stat.TryConsumeStamina(_owner.Stat.AttackStamina))
+            {
+                Debug.Log("스태미나 부족 : 공격");
+                return;
+            }
+
             _attackTimer = 0f;
 
             _lastAttackTime = Time.time;

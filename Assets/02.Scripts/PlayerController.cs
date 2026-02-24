@@ -1,11 +1,39 @@
 ﻿using Photon.Pun;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+// 플레이어의 대표로서 외부와의 소통 및 어빌리티들을 관리하는 역할
+public class PlayerController : MonoBehaviour, IPunObservable
 {
     public PhotonView PhotonView;
+    public PlayerStat Stat;
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        // 읽기(쓰기) 모드
+        if (stream.IsWriting)
+        {
+            Debug.Log("전송");
+            // 이 PhotonView의 데이터를 보내줘야하는 상황
+            stream.SendNext(Stat.CurrentHealth);  // 현재 체력과 스태미나
+            stream.SendNext(Stat.CurrentStamina);
+            // 보낼 값이 많아진다면 JSON이나 BinaryFormatter로 직렬화해서 보내는 방법도 있다.
+            // SendNext, ReceiveNext에 쓰이는 캐스팅에 필요한 박싱 언박싱의 비용과 JsonUtility의 비용을 비교해서 선택하면 된다.
+        }
+
+        else if (stream.IsReading)
+        {
+            Debug.Log("수신");
+            // 이 PhotonView의 데이터를 받아야하는 상황
+            // ReceiveNext()는 object 타입이므로, 캐스팅 필요
+            // 받는 쪽에서는, 보내는 쪽에서 보낸 순서대로 ReceiveNext()를 호출해야한다.
+            Stat.CurrentHealth = (float)stream.ReceiveNext();
+            Stat.CurrentStamina = (float)stream.ReceiveNext();
+        }
+    }
+
     private void Awake()
     {
         PhotonView = GetComponent<PhotonView>();
+        Stat.Initialize();
     }
 }
