@@ -23,6 +23,4 @@ public class PlayerWeaponColliderAbility : PlayerAbility
     {
         _collider.enabled = false;
     }
-
-
 }

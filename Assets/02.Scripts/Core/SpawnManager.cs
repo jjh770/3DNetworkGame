@@ -27,6 +27,7 @@ public class SpawnManager : MonoBehaviour
 
     public void RequestRespawn(PlayerController player)
     {
+        Debug.Log($"{player.PhotonView.name}플레이어 리스폰 요청 받음");
         StartCoroutine(RespawnPlayer(player));
     }
 
@@ -34,6 +35,6 @@ public class SpawnManager : MonoBehaviour
     {
         yield return new WaitForSeconds(_spawnDelay);
         Transform spawnPoint = _spawnPoints[Random.Range(0, _spawnPoints.Length)];
-        player.Respawn(spawnPoint);
+        player.GetAbility<PlayerRespawnAbility>().Respawn(spawnPoint);
     }
 }

@@ -32,7 +32,14 @@ public class PlayerMoveAbility : PlayerAbility
 
         Vector3 moveDirection = transform.TransformDirection(direction);
 
-        _yVelocity -= GRAVITY * Time.deltaTime;
+        if (_characterController.isGrounded)
+        {
+            _yVelocity = 0f;
+        }
+        else
+        {
+            _yVelocity -= GRAVITY * Time.deltaTime;
+        }
 
         if (Input.GetKey(KeyCode.Space) && _characterController.isGrounded)
         {

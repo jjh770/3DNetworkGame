@@ -11,13 +11,15 @@ GameObject:
   - component: {fileID: 2980579449884641573}
   - component: {fileID: 7094920869911818686}
   - component: {fileID: 1165730847135357958}
-  - component: {fileID: 645752766177758628}
-  - component: {fileID: 2654269071077034509}
-  - component: {fileID: 4871709847726717394}
   - component: {fileID: 2106328958948254}
+  - component: {fileID: 645752766177758628}
+  - component: {fileID: 1706248639671159538}
+  - component: {fileID: 2654269071077034509}
+  - component: {fileID: 8713388998927357374}
+  - component: {fileID: 4871709847726717394}
+  - component: {fileID: 7074067738776568458}
   - component: {fileID: 4967377835176881890}
   - component: {fileID: 8230366967100138738}
-  - component: {fileID: 7074067738776568458}
   - component: {fileID: 8085252071174617430}
   - component: {fileID: 7943094852108699861}
   - component: {fileID: 5864564497996520741}
@@ -94,6 +96,20 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.75, z: 0}
+--- !u!114 &2106328958948254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 23826958082754696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30eac982fd3de0547ad6813e5067583f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAttackAbility
+  _animator: {fileID: 7094920869911818686}
+  _comboResetTime: 1
 --- !u!114 &645752766177758628
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -122,6 +138,19 @@ MonoBehaviour:
     MaxStamina: 100
     CurrentStamina: 0
     GainStamina: 5
+--- !u!114 &1706248639671159538
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 23826958082754696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dec50d0faa23924592baf405c6ddaae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHitAbility
+  _animator: {fileID: 7094920869911818686}
 --- !u!114 &2654269071077034509
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,6 +165,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMoveAbility
   _animator: {fileID: 7094920869911818686}
   _yVelocity: 0
+--- !u!114 &8713388998927357374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 23826958082754696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf36e5c9099526d48ba5dafd2445e042, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerRespawnAbility
+  _animator: {fileID: 7094920869911818686}
 --- !u!114 &4871709847726717394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,9 +190,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38e305273c5306a4c813476d28ad41b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerRotateAbility
+  vcam: {fileID: 0}
   _cameraRoot: {fileID: 4140468370769185190}
   _rotationSpeed: 100
---- !u!114 &2106328958948254
+--- !u!114 &7074067738776568458
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -159,11 +202,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 23826958082754696}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30eac982fd3de0547ad6813e5067583f, type: 3}
+  m_Script: {fileID: 11500000, guid: 0406dfb36b9653041800f25e19ffc089, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerAttackAbility
-  _animator: {fileID: 7094920869911818686}
-  _comboResetTime: 1
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStatusUIAbility
+  _healthGauge: {fileID: 3758086457572504396}
+  _staminaGauge: {fileID: 5153384466285275113}
 --- !u!114 &4967377835176881890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -190,20 +233,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerWeaponAbility
   _collider: {fileID: 5249734899669208719}
---- !u!114 &7074067738776568458
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 23826958082754696}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0406dfb36b9653041800f25e19ffc089, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerStatusUIAbility
-  _healthGauge: {fileID: 3758086457572504396}
-  _staminaGauge: {fileID: 5153384466285275113}
 --- !u!114 &8085252071174617430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,6 +307,12 @@ MonoBehaviour:
   - Type: 9
     SynchronizeType: 0
     Name: Tease1
+  - Type: 9
+    SynchronizeType: 0
+    Name: Die
+  - Type: 9
+    SynchronizeType: 0
+    Name: Respawn
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0

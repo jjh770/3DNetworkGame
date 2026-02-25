@@ -32,7 +32,6 @@ public class PlayerAttackAbility : PlayerAbility
             _attackTimer = 0f;
 
             PlayAttackAnimation(Random.Range(1, 4));
-
             _owner.PhotonView.RPC("PlayAttackAnimation", RpcTarget.Others, Random.Range(1, 4));
         }
 

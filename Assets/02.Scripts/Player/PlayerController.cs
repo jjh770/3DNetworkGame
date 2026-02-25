@@ -4,14 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // 플레이어의 대표로서 외부와의 소통 및 어빌리티들을 관리하는 역할
-public class PlayerController : MonoBehaviour, IPunObservable, IDamageable
+public class PlayerController : MonoBehaviour, IPunObservable
 {
-    public static event Action<Transform> OnLocalPlayerSpawned;
-
     public PhotonView PhotonView;
     public PlayerStat Stat;
     public event Action OnStatSynced;
 
+    public static event Action<Transform> OnLocalPlayerSpawned;
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         // 읽기(쓰기) 모드
@@ -36,28 +35,11 @@ public class PlayerController : MonoBehaviour, IPunObservable, IDamageable
         OnStatSynced?.Invoke();
     }
 
-    [PunRPC] // TakeDamage는 내 방에서의 상대 플레이어가 아닌 상대 방의 상대 플레이어에게 줘야하므로 RPC로 호출한다.
-    public void TakeDamage(float damage)
-    {
-        if (Stat.IsDead) return;
-
-        Debug.Log($"{damage} 데미지 피격!");
-        Stat.TakeDamage(damage);
-
-        if (Stat.IsDead && PhotonView.IsMine)
-        {
-            Debug.Log($"{gameObject.name}이(가) 사망했습니다.");
-            SpawnManager.Instance.RequestRespawn(this);
-        }
-    }
-
     private void Awake()
     {
         PhotonView = GetComponent<PhotonView>();
         Stat.Initialize();
-
-        if (PhotonView.IsMine)
-            OnLocalPlayerSpawned?.Invoke(transform);
+        NotifySpawned();
     }
 
     private void Update()
@@ -68,14 +50,8 @@ public class PlayerController : MonoBehaviour, IPunObservable, IDamageable
         }
     }
 
-    public void Respawn(Transform respawnTransform)
+    public void NotifySpawned()
     {
-        CharacterController characterController = GetComponent<CharacterController>();
-        characterController.enabled = false;
-        transform.position = respawnTransform.position;
-        transform.rotation = respawnTransform.rotation;
-        characterController.enabled = true;
-        Stat.Initialize();
         if (PhotonView.IsMine)
             OnLocalPlayerSpawned?.Invoke(transform);
     }
