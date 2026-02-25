@@ -39,7 +39,16 @@ public class PlayerController : MonoBehaviour, IPunObservable, IDamageable
     [PunRPC] // TakeDamage는 내 방에서의 상대 플레이어가 아닌 상대 방의 상대 플레이어에게 줘야하므로 RPC로 호출한다.
     public void TakeDamage(float damage)
     {
+        if (Stat.IsDead) return;
+
+        Debug.Log($"{damage} 데미지 피격!");
         Stat.TakeDamage(damage);
+
+        if (Stat.IsDead && PhotonView.IsMine)
+        {
+            Debug.Log($"{gameObject.name}이(가) 사망했습니다.");
+            SpawnManager.Instance.RequestRespawn(this);
+        }
     }
 
     private void Awake()
@@ -57,6 +66,18 @@ public class PlayerController : MonoBehaviour, IPunObservable, IDamageable
         {
             return;
         }
+    }
+
+    public void Respawn(Transform respawnTransform)
+    {
+        CharacterController characterController = GetComponent<CharacterController>();
+        characterController.enabled = false;
+        transform.position = respawnTransform.position;
+        transform.rotation = respawnTransform.rotation;
+        characterController.enabled = true;
+        Stat.Initialize();
+        if (PhotonView.IsMine)
+            OnLocalPlayerSpawned?.Invoke(transform);
     }
 
     private Dictionary<Type, PlayerAbility> _abilitiesCache = new();
