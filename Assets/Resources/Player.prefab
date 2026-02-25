@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2106328958948254}
   - component: {fileID: 645752766177758628}
   - component: {fileID: 1706248639671159538}
+  - component: {fileID: 944214681813115188}
   - component: {fileID: 2654269071077034509}
   - component: {fileID: 8713388998927357374}
   - component: {fileID: 4871709847726717394}
@@ -151,6 +152,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHitAbility
   _animator: {fileID: 7094920869911818686}
+--- !u!114 &944214681813115188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 23826958082754696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f95e04f30aa862d479493e6b563a1c19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerItemDropAbility
 --- !u!114 &2654269071077034509
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -190,7 +203,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38e305273c5306a4c813476d28ad41b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerRotateAbility
-  vcam: {fileID: 0}
   _cameraRoot: {fileID: 4140468370769185190}
   _rotationSpeed: 100
 --- !u!114 &7074067738776568458

@@ -29,6 +29,11 @@ public class PlayerHitAbility : PlayerAbility, IDamageable
         {
             Debug.Log($"{_owner.PhotonView.name}이(가) 사망했습니다.");
             PlayDieAnimation();
+            if (_owner.PhotonView.IsMine)
+            {
+                // 아이템 드롭
+                _owner.GetAbility<PlayerItemDropAbility>()?.DropItems(transform.position);
+            }
             PhotonRoomManager.Instance.OnPlayerDeath(attackerActorNumber);
             _owner.PhotonView.RPC("PlayDieAnimation", RpcTarget.Others);
             SpawnManager.Instance.RequestRespawn(_owner);
