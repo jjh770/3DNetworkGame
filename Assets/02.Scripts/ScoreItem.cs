@@ -16,9 +16,9 @@ public class ScoreItem : MonoBehaviour, IPunInstantiateMagicCallback
         _dropperActorNumber = (int)info.photonView.InstantiationData[0];
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (!other.TryGetComponent(out PlayerController player)) return;
+        if (!collision.collider.TryGetComponent(out PlayerController player)) return;
         if (!player.PhotonView.IsMine) return;
         if (player.PhotonView.Owner.ActorNumber == _dropperActorNumber) return;
 
