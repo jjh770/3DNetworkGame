@@ -1,6 +1,5 @@
 ﻿using Photon.Pun;
 using Photon.Realtime;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PhotonServerManager : MonoBehaviourPunCallbacks
@@ -62,25 +61,24 @@ public class PhotonServerManager : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinRandomRoom();
     }
 
-    // 방 입장에 성공하면 자동으로 호출되는 콜백 함수
-    public override void OnJoinedRoom()
-    {
-        Debug.Log("룸 입장 완료");
-        Debug.Log($"룸 : {PhotonNetwork.CurrentRoom.Name}");
-        Debug.Log($"플레이어 인원 : {PhotonNetwork.CurrentRoom.PlayerCount}");
+    //public override void OnJoinedRoom()
+    //{
+    //    Debug.Log("룸 입장 완료");
+    //    Debug.Log($"룸 : {PhotonNetwork.CurrentRoom.Name}");
+    //    Debug.Log($"플레이어 인원 : {PhotonNetwork.CurrentRoom.PlayerCount}");
 
-        // 룸에 입장한 플레이어 정보
-        Dictionary<int, Player> roomPlayers = PhotonNetwork.CurrentRoom.Players;
-        foreach (KeyValuePair<int, Player> player in roomPlayers)
-        {
-            Debug.Log($"{player.Value.NickName} : {player.Value.ActorNumber}");
-        }
+    //    // 룸에 입장한 플레이어 정보
+    //    Dictionary<int, Player> roomPlayers = PhotonNetwork.CurrentRoom.Players;
+    //    foreach (KeyValuePair<int, Player> player in roomPlayers)
+    //    {
+    //        Debug.Log($"{player.Value.NickName} : {player.Value.ActorNumber}");
+    //    }
 
-        // 리소스 폴더에서 "Player" 프리팹을 찾아 생성(인스턴스화)하도록 한다. + 서버에 등록도 함.
-        // -> 리소스 폴더는 잘 쓰이지 않음. 다른 방법으로 해결하기
-        Transform spawnPoint = SpawnManager.Instance.SpawnPlayer();
-        PhotonNetwork.Instantiate("Player", spawnPoint.position, spawnPoint.rotation);
-    }
+    //    // 리소스 폴더에서 "Player" 프리팹을 찾아 생성(인스턴스화)하도록 한다. + 서버에 등록도 함.
+    //    // -> 리소스 폴더는 잘 쓰이지 않음. 다른 방법으로 해결하기
+    //    Transform spawnPoint = SpawnManager.Instance.SpawnPlayer();
+    //    PhotonNetwork.Instantiate("Player", spawnPoint.position, spawnPoint.rotation);
+    //}
 
     // 방 입장에 실패하면 자동으로 호출되는 콜백 함수
     public override void OnJoinRoomFailed(short returnCode, string message)

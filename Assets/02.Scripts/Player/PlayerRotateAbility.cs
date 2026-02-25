@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayerRotateAbility : PlayerAbility
 {
-    [SerializeField] private CinemachineCamera vcam;
+
     [SerializeField] private Transform _cameraRoot;
     [SerializeField] private float _rotationSpeed = 100f;
     private float _mx;
@@ -13,6 +13,7 @@ public class PlayerRotateAbility : PlayerAbility
     {
         if (!_owner.PhotonView.IsMine) return;
         Cursor.lockState = CursorLockMode.Locked;
+        CinemachineCamera vcam = GameObject.Find("FollowCamera").GetComponent<CinemachineCamera>();
         vcam.Follow = _cameraRoot.transform;
     }
 
