@@ -47,6 +47,8 @@ MonoBehaviour:
   - DropItems
   - SkyDropItem
   - SpawnSkyDropItem
+  - OnHit
+  - RPC_SyncAnimation
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
