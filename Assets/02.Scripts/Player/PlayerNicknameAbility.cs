@@ -7,8 +7,8 @@ public class PlayerNicknameAbility : PlayerAbility
 
     private void Start()
     {
-        _nicknameTextUI.text = _owner.PhotonView.Owner.NickName;
-        if (_owner.PhotonView.IsMine)
+        _nicknameTextUI.text = _owner.NickName;
+        if (_owner.IsMine)
         {
             _nicknameTextUI.color = Color.green;
         }

@@ -4,7 +4,8 @@ using UnityEngine;
 public class ItemObjectFactory : MonoBehaviourPun
 {
     public static ItemObjectFactory Instance { get; private set; }
-
+    [SerializeField] private int _minDropCount = 3;
+    [SerializeField] private int _maxDropCount = 6;
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -40,7 +41,7 @@ public class ItemObjectFactory : MonoBehaviourPun
     [PunRPC]
     public void DropItems(Vector3 dropPosition, int dropperActorNumber)
     {
-        int randomCount = UnityEngine.Random.Range(3, 5);
+        int randomCount = UnityEngine.Random.Range(_minDropCount, _maxDropCount);
         for (int i = 0; i < randomCount; i++)
         {
             // 플레이어가 룸을 나가면 그 플레이어가 생성/소유한 모든 네트워크 게임 오브젝트는 사라진다.

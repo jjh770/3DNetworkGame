@@ -63,43 +63,40 @@ public class BearController : MonoBehaviourPun, IPunObservable
 
     private void Start()
     {
-        _combat.OnHitTaken += pos =>
-        {
-            if (_currentState == BearState.Hit) return;
-            HandleKnockback(pos);
-            ChangeState(BearState.Hit);
-        };
-        _combat.OnDead += () => ChangeState(BearState.Death);
-        _combat.OnHit += () => ChangeState(BearState.Hit);
-        _combat.OnAttackFinished += () =>
-        {
-            if (_currentState == BearState.Attack)
-            {
-                ChangeState(BearState.Chase);
-            }
-        };
-        _combat.OnHealthChanged += () => OnHealthChanged?.Invoke();
+        _combat.OnHitTaken += OnHitTakenHandler;
+        _combat.OnDead += OnDeadHandler;
+        _combat.OnHit += OnHitHandler;
+        _combat.OnAttackFinished += OnAttackFinishedHandler;
+        _combat.OnHealthChanged += OnHealthChangedHandler;
     }
 
     private void OnDestroy()
     {
-        _combat.OnHitTaken -= pos =>
-        {
-            if (_currentState == BearState.Hit) return;
-            HandleKnockback(pos);
-            ChangeState(BearState.Hit);
-        };
-        _combat.OnDead -= () => ChangeState(BearState.Death);
-        _combat.OnHit -= () => ChangeState(BearState.Hit);
-        _combat.OnAttackFinished -= () =>
-        {
-            if (_currentState == BearState.Attack)
-            {
-                ChangeState(BearState.Chase);
-            }
-        };
-        _combat.OnHealthChanged -= () => OnHealthChanged?.Invoke();
+        _combat.OnHitTaken -= OnHitTakenHandler;
+        _combat.OnDead -= OnDeadHandler;
+        _combat.OnHit -= OnHitHandler;
+        _combat.OnAttackFinished -= OnAttackFinishedHandler;
+        _combat.OnHealthChanged -= OnHealthChangedHandler;
     }
+
+    private void OnHitTakenHandler(Vector3 pos)
+    {
+        if (_currentState == BearState.Hit) return;
+        HandleKnockback(pos);
+        ChangeState(BearState.Hit);
+    }
+
+    private void OnDeadHandler() => ChangeState(BearState.Death);
+
+    private void OnHitHandler() => ChangeState(BearState.Hit);
+
+    private void OnAttackFinishedHandler()
+    {
+        if (_currentState == BearState.Attack)
+            ChangeState(BearState.Chase);
+    }
+
+    private void OnHealthChangedHandler() => OnHealthChanged?.Invoke();
 
     void Update()
     {
@@ -202,16 +199,16 @@ public class BearController : MonoBehaviourPun, IPunObservable
 
     void FindNearestPlayer()
     {
-        // 멀티플레이어 환경에서 가장 가까운 플레이어 찾기
-        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         float minDist = float.MaxValue;
-        foreach (GameObject p in players)
+        foreach (PlayerController player in PlayerController.All)
         {
-            float dist = Vector3.Distance(transform.position, p.transform.position);
+            if (player.Stat.IsDead) continue;
+
+            float dist = Vector3.Distance(transform.position, player.transform.position);
             if (dist < minDist)
             {
                 minDist = dist;
-                _target = p.transform;
+                _target = player.transform;
             }
         }
     }

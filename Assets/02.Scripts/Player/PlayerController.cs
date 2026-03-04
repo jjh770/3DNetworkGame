@@ -10,6 +10,11 @@ public class PlayerController : MonoBehaviour, IPunObservable
     public PlayerStat Stat;
     public event Action OnStatSynced;
 
+    public string NickName => PhotonView.Owner.NickName;
+    public bool IsMine => PhotonView.IsMine;
+
+    public static readonly List<PlayerController> All = new();
+
     public static event Action<Transform> OnLocalPlayerSpawned;
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
@@ -37,9 +42,15 @@ public class PlayerController : MonoBehaviour, IPunObservable
 
     private void Awake()
     {
+        All.Add(this);
         PhotonView = GetComponent<PhotonView>();
         Stat.Initialize();
         NotifySpawned();
+    }
+
+    private void OnDestroy()
+    {
+        All.Remove(this);
     }
 
     private void Update()
