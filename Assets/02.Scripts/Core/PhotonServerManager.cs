@@ -1,6 +1,5 @@
 ﻿using Photon.Pun;
 using Photon.Realtime;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PhotonServerManager : MonoBehaviourPunCallbacks
@@ -16,8 +15,13 @@ public class PhotonServerManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        _nickname += $"_{Random.Range(0, 1000)}";
+
         PhotonNetwork.GameVersion = _version;
         PhotonNetwork.NickName = _nickname;
+
+        PhotonNetwork.SendRate = 30;          // 얼마나 자주 데이터를 송수신 할 것인지 (실제 송수신)
+        PhotonNetwork.SerializationRate = 30; // 얼마나 자주 데이터를 직렬화 할 것인지 (송수신 준비)
 
         // 방장이 로드한 씬 게임에 다른 유저들도 똑같이 그 씬을 로드하도록 동기화해준다.
         // 방장(마스터 클라이언트) : 방을 만든 '소유자' (방에는 하나의 마스터 클라이언트가 존재)
@@ -57,20 +61,24 @@ public class PhotonServerManager : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinRandomRoom();
     }
 
-    // 방 입장에 성공하면 자동으로 호출되는 콜백 함수
-    public override void OnJoinedRoom()
-    {
-        Debug.Log("룸 입장 완료");
-        Debug.Log($"룸 : {PhotonNetwork.CurrentRoom.Name}");
-        Debug.Log($"플레이어 인원 : {PhotonNetwork.CurrentRoom.PlayerCount}");
+    //public override void OnJoinedRoom()
+    //{
+    //    Debug.Log("룸 입장 완료");
+    //    Debug.Log($"룸 : {PhotonNetwork.CurrentRoom.Name}");
+    //    Debug.Log($"플레이어 인원 : {PhotonNetwork.CurrentRoom.PlayerCount}");
 
-        // 룸에 입장한 플레이어 정보
-        Dictionary<int, Player> roomPlayers = PhotonNetwork.CurrentRoom.Players;
-        foreach (KeyValuePair<int, Player> player in roomPlayers)
-        {
-            Debug.Log($"{player.Value.NickName} : {player.Value.ActorNumber}");
-        }
-    }
+    //    // 룸에 입장한 플레이어 정보
+    //    Dictionary<int, Player> roomPlayers = PhotonNetwork.CurrentRoom.Players;
+    //    foreach (KeyValuePair<int, Player> player in roomPlayers)
+    //    {
+    //        Debug.Log($"{player.Value.NickName} : {player.Value.ActorNumber}");
+    //    }
+
+    //    // 리소스 폴더에서 "Player" 프리팹을 찾아 생성(인스턴스화)하도록 한다. + 서버에 등록도 함.
+    //    // -> 리소스 폴더는 잘 쓰이지 않음. 다른 방법으로 해결하기
+    //    Transform spawnPoint = SpawnManager.Instance.SpawnPlayer();
+    //    PhotonNetwork.Instantiate("Player", spawnPoint.position, spawnPoint.rotation);
+    //}
 
     // 방 입장에 실패하면 자동으로 호출되는 콜백 함수
     public override void OnJoinRoomFailed(short returnCode, string message)
