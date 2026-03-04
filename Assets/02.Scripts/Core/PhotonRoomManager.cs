@@ -52,11 +52,19 @@ public class PhotonRoomManager : MonoBehaviourPunCallbacks
         OnPlayerLeft?.Invoke(leftPlayer);
     }
 
-    public void OnPlayerDeath(int attackerActorNumber, int victimActorNumber)
+    public void OnPlayerDeath(int attackerActorNumber, AttackerType attackerType, int victimActorNumber)
     {
-        string attackerNickname = Room.Players[attackerActorNumber].NickName;
+        string attackerNickname = attackerType == AttackerType.Player ?
+            Room.Players[attackerActorNumber].NickName :
+            ParseMonsterName(PhotonView.Find(attackerActorNumber).gameObject.name);
+
         string victimNickname = Room.Players[victimActorNumber].NickName;
 
         OnPlayerDeathed?.Invoke(attackerNickname, victimNickname);
+    }
+
+    private string ParseMonsterName(string monsterObjectName)
+    {
+        return monsterObjectName.Split('(')[0]; // "Bear(Clone)" -> "Bear"
     }
 }

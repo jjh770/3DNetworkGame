@@ -48,7 +48,7 @@ public class BearCombat : MonoBehaviour, IDamageable
                 {
                     PhotonView targetView = _target.GetComponent<PhotonView>();
                     targetView.RPC(nameof(PlayerHitAbility.TakeDamage), RpcTarget.All,
-                        _stat.AttackDamage, PhotonNetwork.MasterClient.ActorNumber);
+                        _stat.AttackDamage, PhotonNetwork.MasterClient.ActorNumber, AttackerType.Monster);
                 }
             }
             yield return new WaitForSeconds(_stat.AttackDelayTime);
@@ -66,7 +66,7 @@ public class BearCombat : MonoBehaviour, IDamageable
     }
 
     [PunRPC]
-    public void TakeDamage(float damage, int attackerActorNumber)
+    public void TakeDamage(float damage, int attackerActorNumber, AttackerType attackerType)
     {
         if (_stat.IsDead) return;
         _stat.TakeDamage(damage);
@@ -86,7 +86,7 @@ public class BearCombat : MonoBehaviour, IDamageable
                 break;
             }
         }
-        OnHit?.Invoke();
         OnHitTaken?.Invoke(attackerPos);
+        OnHit?.Invoke();
     }
 }

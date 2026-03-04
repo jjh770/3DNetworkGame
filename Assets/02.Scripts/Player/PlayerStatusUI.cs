@@ -1,10 +1,17 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerStatusUIAbility : PlayerAbility
+public class PlayerStatusUI : MonoBehaviour
 {
     [SerializeField] private Image _healthGauge;
     [SerializeField] private Image _staminaGauge;
+
+    private PlayerController _owner;
+
+    private void Awake()
+    {
+        _owner = GetComponentInParent<PlayerController>();
+    }
 
     private void Start()
     {
@@ -14,6 +21,10 @@ public class PlayerStatusUIAbility : PlayerAbility
     {
         _owner.OnStatSynced -= UpdateUI;
     }
+    private void Update()
+    {
+        UpdateUI();
+    }
 
     private void UpdateUI()
     {
@@ -22,11 +33,5 @@ public class PlayerStatusUIAbility : PlayerAbility
 
         if (_staminaGauge != null && _owner.Stat.MaxStamina > 0)
             _staminaGauge.fillAmount = Mathf.Clamp01(_owner.Stat.CurrentStamina / _owner.Stat.MaxStamina);
-    }
-
-    // 로컬 플레이어 UI는 매 프레임 갱신 (OnPhotonSerializeView 없이도 동작)
-    protected override void OnUpdate()
-    {
-        UpdateUI();
     }
 }

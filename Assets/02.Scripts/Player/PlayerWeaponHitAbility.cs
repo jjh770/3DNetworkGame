@@ -22,12 +22,12 @@ public class PlayerWeaponHitAbility : PlayerAbility
             // 상대방의 TakeDamage를 RPC로 호출해서, 상대방의 방에서도 데미지가 적용되도록 한다.
             if (other.TryGetComponent(out PlayerController targetPlayer))
             {
-                targetPlayer.PhotonView.RPC(nameof(PlayerHitAbility.TakeDamage), RpcTarget.All, _owner.Stat.AttackDamage, actorNumber);
+                targetPlayer.PhotonView.RPC(nameof(PlayerHitAbility.TakeDamage), RpcTarget.All, _owner.Stat.AttackDamage, actorNumber, AttackerType.Player);
             }
             else if (other.TryGetComponent(out BearCombat bear))
             {
                 PhotonView bearView = other.GetComponent<PhotonView>();
-                bearView.RPC(nameof(BearCombat.TakeDamage), RpcTarget.All, _owner.Stat.AttackDamage, actorNumber);
+                bearView.RPC(nameof(BearCombat.TakeDamage), RpcTarget.All, _owner.Stat.AttackDamage, actorNumber, AttackerType.Player);
             }
             _owner.GetAbility<PlayerWeaponColliderAbility>().DeactiveCollider();
         }

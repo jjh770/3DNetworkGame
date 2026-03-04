@@ -11,7 +11,7 @@ public class PlayerHitAbility : PlayerAbility, IDamageable
     }
 
     [PunRPC] // TakeDamage는 내 방에서의 상대 플레이어가 아닌 상대 방의 상대 플레이어에게 줘야하므로 RPC로 호출한다.
-    public void TakeDamage(float damage, int attackerActorNumber)
+    public void TakeDamage(float damage, int attackerActorNumber, AttackerType attackerType)
     {
         if (_owner.Stat.IsDead) return;
 
@@ -35,7 +35,7 @@ public class PlayerHitAbility : PlayerAbility, IDamageable
                 ItemObjectFactory.Instance.RequestDropItems(transform.position, _owner.PhotonView.Owner.ActorNumber);
                 //_owner.GetAbility<PlayerItemDropAbility>()?.DropItems(transform.position);
             }
-            PhotonRoomManager.Instance.OnPlayerDeath(attackerActorNumber, _owner.PhotonView.Owner.ActorNumber);
+            PhotonRoomManager.Instance.OnPlayerDeath(attackerActorNumber, attackerType, _owner.PhotonView.Owner.ActorNumber);
             _owner.PhotonView.RPC("PlayDieAnimation", RpcTarget.Others);
             SpawnManager.Instance.RequestRespawn(_owner);
         }
