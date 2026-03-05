@@ -1,11 +1,11 @@
 ﻿using Photon.Pun;
 using UnityEngine;
 
-public class MonsterSpawner : MonoBehaviourPunCallbacks
+public class MonsterSpawner : MonoBehaviour
 {
     [SerializeField] private Transform[] _spawnPoints;
 
-    public override void OnJoinedRoom()
+    private void Start()
     {
         if (!PhotonNetwork.IsMasterClient) return;
 

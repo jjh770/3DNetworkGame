@@ -124,6 +124,9 @@ public class BearController : MonoBehaviourPun, IPunObservable
                 }
                 break;
 
+            case BearState.Attack:
+                RotationToTarget();
+                break;
             case BearState.Patrol:
                 _agent.speed = Stat.Speed;
                 if (distance <= _detectRange) ChangeState(BearState.Wait);
@@ -132,6 +135,7 @@ public class BearController : MonoBehaviourPun, IPunObservable
 
             case BearState.Wait:
                 _agent.isStopped = true;
+                RotationToTarget();
                 if (distance <= _chaseRange) ChangeState(BearState.Chase);
                 else if (distance > _detectRange) ChangeState(BearState.Patrol);
                 break;
@@ -249,5 +253,15 @@ public class BearController : MonoBehaviourPun, IPunObservable
     {
         _agent.updateRotation = true;            // 회전 복구
         ChangeState(BearState.Idle);
+    }
+
+    private void RotationToTarget()
+    {
+        if (_target != null)
+        {
+            Vector3 dir = (_target.position - transform.position).normalized;
+            dir.y = 0f;
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(dir), _agent.angularSpeed * Time.deltaTime);
+        }
     }
 }

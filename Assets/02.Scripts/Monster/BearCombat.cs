@@ -46,9 +46,14 @@ public class BearCombat : MonoBehaviour, IDamageable
                 float distance = Vector3.Distance(transform.position, _target.position);
                 if (distance <= _attackRange)
                 {
-                    PhotonView targetView = _target.GetComponent<PhotonView>();
-                    targetView.RPC(nameof(PlayerHitAbility.TakeDamage), RpcTarget.All,
-                        _stat.AttackDamage, PhotonNetwork.MasterClient.ActorNumber, AttackerType.Monster);
+                    Vector3 dirToTarget = (_target.position - transform.position).normalized;
+                    float dot = Vector3.Dot(transform.forward, dirToTarget);
+                    if (dot > 0.9f)
+                    {
+                        PhotonView targetView = _target.GetComponent<PhotonView>();
+                        targetView.RPC(nameof(PlayerHitAbility.TakeDamage), RpcTarget.All,
+                            _stat.AttackDamage, PhotonNetwork.MasterClient.ActorNumber, AttackerType.Monster);
+                    }
                 }
             }
             yield return new WaitForSeconds(_stat.AttackDelayTime);
