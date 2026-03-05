@@ -1,6 +1,7 @@
 ﻿using Photon.Pun;
 using Photon.Realtime;
 using System;
+using UnityEngine.SceneManagement;
 
 public class PhotonRoomManager : MonoBehaviourPunCallbacks
 {
@@ -39,6 +40,10 @@ public class PhotonRoomManager : MonoBehaviourPunCallbacks
         {
             PhotonNetwork.LoadLevel("GameScene"); // 비마스터도 명시적으로 로드
         }
+    }
+    public override void OnLeftRoom()
+    {
+        SceneManager.LoadScene("LobbyScene");
     }
 
     // 새로운 플레이어가 방에 입장하면 자동으로 호출되는 함수

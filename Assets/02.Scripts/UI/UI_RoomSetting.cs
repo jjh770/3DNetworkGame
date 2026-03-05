@@ -24,6 +24,11 @@ public class UI_RoomSetting : MonoBehaviour
         _maleButton.onClick.AddListener(() => SetMale());
         _femaleButton.onClick.AddListener(() => SetFemale());
         _createRoomButton.onClick.AddListener(() => MakeRoom());
+
+        _nicknameInputField.onValueChanged.AddListener(nickname =>
+        {
+            PhotonNetwork.NickName = nickname;
+        });
     }
     private void MakeRoom()
     {

@@ -105,4 +105,10 @@ public class ScoreManager : MonoBehaviourPunCallbacks
         _scores[targetPlayer.ActorNumber] = scoreData;
         OnScoreChanged?.Invoke();
     }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        _scores.Remove(otherPlayer.ActorNumber);
+        OnScoreChanged?.Invoke();
+    }
 }
