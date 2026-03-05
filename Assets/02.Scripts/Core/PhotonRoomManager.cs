@@ -25,20 +25,20 @@ public class PhotonRoomManager : MonoBehaviourPunCallbacks
         }
     }
 
+    public override void OnCreatedRoom()
+    {
+        PhotonNetwork.LoadLevel("GameScene"); // 방장
+    }
+
     public override void OnJoinedRoom()
     {
         _room = PhotonNetwork.CurrentRoom;
-
-        //SceneManager.LoadScene("GameScene");
-        if (PhotonNetwork.IsMasterClient)
-        {
-            PhotonNetwork.LoadLevel("GameScene");
-        }
-        else
-        {
-            // 아무것도 하지 않아도 자동으로 방장이 있는 씬으로 옮겨진다.
-        }
         OnRoomInfoChanged?.Invoke();
+
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.LoadLevel("GameScene"); // 비마스터도 명시적으로 로드
+        }
     }
 
     // 새로운 플레이어가 방에 입장하면 자동으로 호출되는 함수
