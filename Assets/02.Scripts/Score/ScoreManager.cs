@@ -37,9 +37,10 @@ public class ScoreManager : MonoBehaviourPunCallbacks
         Refresh();
     }
 
-    public override void OnJoinedRoom()
+    private void Start()
     {
-        // 기존 플레이어들의 점수 정보를 먼저 가져오고 내꺼를 Refresh()
+        if (!PhotonNetwork.InRoom) return;
+
         foreach (Player player in PhotonNetwork.PlayerList)
         {
             if (player.CustomProperties.ContainsKey("score"))
@@ -51,9 +52,35 @@ public class ScoreManager : MonoBehaviourPunCallbacks
                 };
             }
         }
-        Refresh(); // 내 점수를 Photon에 올림 -> 다른 플레이어들이 OnPlayerPropertiesUpdate에서 내 점수 정보를 받아서 _scores에 저장한다.
-        OnScoreChanged?.Invoke();
+
+        // 네트워크 응답 기다리지 않고 즉시 로컬 플레이어 추가
+        _scores[PhotonNetwork.LocalPlayer.ActorNumber] = new ScoreData()
+        {
+            Nickname = PhotonNetwork.NickName,
+            Score = _score
+        };
+
+        Refresh();           // Photon에 점수 업로드
+        OnScoreChanged?.Invoke(); // UI 즉시 갱신
     }
+
+    //public override void OnJoinedRoom()
+    //{
+    //    // 기존 플레이어들의 점수 정보를 먼저 가져오고 내꺼를 Refresh()
+    //    foreach (Player player in PhotonNetwork.PlayerList)
+    //    {
+    //        if (player.CustomProperties.ContainsKey("score"))
+    //        {
+    //            _scores[player.ActorNumber] = new ScoreData()
+    //            {
+    //                Nickname = player.NickName,
+    //                Score = (int)player.CustomProperties["score"]
+    //            };
+    //        }
+    //    }
+    //    Refresh(); // 내 점수를 Photon에 올림 -> 다른 플레이어들이 OnPlayerPropertiesUpdate에서 내 점수 정보를 받아서 _scores에 저장한다.
+    //    OnScoreChanged?.Invoke();
+    //}
 
     private void Refresh()
     {

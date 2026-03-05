@@ -9,21 +9,24 @@ public class UI_Score : MonoBehaviourPunCallbacks
     [SerializeField] private Transform _container;
     private List<UI_ScoreItem> _scoreItems = new();
 
-    public override void OnJoinedRoom()
+    //public override void OnJoinedRoom()
+    private void Start()
     {
         // 기존 항목 정리 (이전 씬에서 남아있는 Item을 또 호출할 수 있으므로 정리해준다.)
         //  OnJoinedRoom이 같은 UI_Score 인스턴스에서 두 번 호출될 경우:
         // 첫 번째 OnJoinedRoom → _scoreItems에 4개 추가 → [item0, item1, item2, item3]
         // 두 번째 OnJoinedRoom → 또 4개 추가           → [item0, item1, item2, item3, item4, item5, item6, item7]
         // 리스트가 누적되기 때문에 이를 방지하는 방어 코드입니다.
-        foreach (var item in _scoreItems)
-        {
-            if (item != null)
-            {
-                Destroy(item.gameObject);
-            }
-        }
-        _scoreItems.Clear();
+        //foreach (var item in _scoreItems)
+        //{
+        //    if (item != null)
+        //    {
+        //        Destroy(item.gameObject);
+        //    }
+        //}
+        //_scoreItems.Clear();
+
+        if (!PhotonNetwork.InRoom) return;
 
         int maxPlayers = PhotonNetwork.CurrentRoom.MaxPlayers;
 
