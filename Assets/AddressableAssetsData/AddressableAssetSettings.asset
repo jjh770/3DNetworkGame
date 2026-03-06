@@ -1,0 +1,115 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 468a46d0ae32c3544b7d98094e6448a9, type: 3}
+  m_Name: AddressableAssetSettings
+  m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetSettings
+  m_DefaultGroup: d1a92286400cebe448a78ab9ad91c3f8
+  m_currentHash:
+    serializedVersion: 2
+    Hash: 519fa45f5cd0a5d7dd914af36b9fcc55
+  m_OptimizeCatalogSize: 0
+  m_BuildRemoteCatalog: 0
+  m_CatalogRequestsTimeout: 0
+  m_DisableCatalogUpdateOnStart: 0
+  m_InternalIdNamingMode: 0
+  m_InternalBundleIdMode: 1
+  m_AssetLoadMode: 0
+  m_BundledAssetProviderType:
+    m_AssemblyName: 
+    m_ClassName: 
+  m_AssetBundleProviderType:
+    m_AssemblyName: 
+    m_ClassName: 
+  m_IgnoreUnsupportedFilesInBuild: 0
+  m_UniqueBundleIds: 0
+  m_EnableJsonCatalog: 0
+  m_NonRecursiveBuilding: 1
+  m_AllowNestedBundleFolders: 0
+  m_CCDEnabled: 0
+  m_maxConcurrentWebRequests: 3
+  m_UseUWRForLocalBundles: 0
+  m_BundleTimeout: 0
+  m_BundleRetryCount: 0
+  m_BundleRedirectLimit: -1
+  m_SharedBundleSettings: 0
+  m_SharedBundleSettingsCustomGroupIndex: 0
+  m_ContiguousBundles: 1
+  m_StripUnityVersionFromBundleBuild: 0
+  m_DisableVisibleSubAssetRepresentations: 0
+  m_BuiltInBundleNaming: 0
+  mBuiltInBundleCustomNaming: 
+  m_MonoScriptBundleNaming: 0
+  m_CheckForContentUpdateRestrictionsOption: 0
+  m_MonoScriptBundleCustomNaming: 
+  m_RemoteCatalogBuildPath:
+    m_Id: 
+  m_RemoteCatalogLoadPath:
+    m_Id: 
+  m_ContentStateBuildPathProfileVariableName: 
+  m_CustomContentStateBuildPath: 
+  m_ContentStateBuildPath: 
+  m_BuildAddressablesWithPlayerBuild: 0
+  m_overridePlayerVersion: '[UnityEditor.PlayerSettings.bundleVersion]'
+  m_GroupAssets:
+  - {fileID: 11400000, guid: 687a70b7cb9ae054b9b3c2c30ac5f79b, type: 2}
+  m_BuildSettings:
+    m_LogResourceManagerExceptions: 1
+    m_BundleBuildPath: Temp/com.unity.addressables/AssetBundles
+  m_ProfileSettings:
+    m_Profiles:
+    - m_InheritedParent: 
+      m_Id: c0a78d84214e22f4f9a4d974a73be73c
+      m_ProfileName: Default
+      m_Values:
+      - m_Id: 05c9f7bf5b7c3c749afa204fb374abc2
+        m_Value: 'ServerData/[BuildTarget]'
+      - m_Id: 0c9cbd1433f785749a799c2fee260778
+        m_Value: '[UnityEditor.EditorUserBuildSettings.activeBuildTarget]'
+      - m_Id: 5a0cdd7be2401d546ba0f8047f07c33e
+        m_Value: <undefined>
+      - m_Id: acd1a6339c416fd4c8df7b0834a14aee
+        m_Value: '[UnityEngine.AddressableAssets.Addressables.BuildPath]/[BuildTarget]'
+      - m_Id: efda47911fc318e48889caabc3bf350a
+        m_Value: '{UnityEngine.AddressableAssets.Addressables.RuntimePath}/[BuildTarget]'
+    m_ProfileEntryNames:
+    - m_Id: 05c9f7bf5b7c3c749afa204fb374abc2
+      m_Name: Remote.BuildPath
+      m_InlineUsage: 0
+    - m_Id: 0c9cbd1433f785749a799c2fee260778
+      m_Name: BuildTarget
+      m_InlineUsage: 0
+    - m_Id: 5a0cdd7be2401d546ba0f8047f07c33e
+      m_Name: Remote.LoadPath
+      m_InlineUsage: 0
+    - m_Id: acd1a6339c416fd4c8df7b0834a14aee
+      m_Name: Local.BuildPath
+      m_InlineUsage: 0
+    - m_Id: efda47911fc318e48889caabc3bf350a
+      m_Name: Local.LoadPath
+      m_InlineUsage: 0
+    m_ProfileVersion: 1
+  m_LabelTable:
+    m_LabelNames:
+    - default
+  m_SchemaTemplates: []
+  m_GroupTemplateObjects:
+  - {fileID: 11400000, guid: f0c9cc31dd3949448ada8f26e6716991, type: 2}
+  m_InitializationObjects: []
+  m_CertificateHandlerType:
+    m_AssemblyName: 
+    m_ClassName: 
+  m_ActivePlayerDataBuilderIndex: 2
+  m_DataBuilders:
+  - {fileID: 11400000, guid: 54d4bc22519385d42aa4c97e89edcdde, type: 2}
+  - {fileID: 11400000, guid: 3067cd2f951d83848b486d2c16c22b70, type: 2}
+  - {fileID: 11400000, guid: 0b36bd403602ca843b9d2208f54db036, type: 2}
+  m_ActiveProfileId: c0a78d84214e22f4f9a4d974a73be73c
