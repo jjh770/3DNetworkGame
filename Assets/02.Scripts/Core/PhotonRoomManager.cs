@@ -1,11 +1,13 @@
 ﻿using Photon.Pun;
 using Photon.Realtime;
 using System;
-using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PhotonRoomManager : MonoBehaviourPunCallbacks
 {
     public static PhotonRoomManager Instance { get; private set; }
+
+    public const string MasterNickname = "MasterNickname"; // 방장 닉네임을 저장하는 커스텀 프로퍼티 키
 
     private Room _room;
     public Room Room => _room;
@@ -26,16 +28,24 @@ public class PhotonRoomManager : MonoBehaviourPunCallbacks
         }
     }
 
+    public override void OnCreatedRoom()
+    {
+        PhotonNetwork.LoadLevel("GameScene"); // 방장
+    }
+
     public override void OnJoinedRoom()
     {
         _room = PhotonNetwork.CurrentRoom;
-
         OnRoomInfoChanged?.Invoke();
 
-        // 리소스 폴더에서 "Player" 프리팹을 찾아 생성(인스턴스화)하도록 한다. + 서버에 등록도 함.
-        // -> 리소스 폴더는 잘 쓰이지 않음. 다른 방법으로 해결하기
-        Transform spawnPoint = SpawnManager.Instance.SpawnPlayer();
-        PhotonNetwork.Instantiate("Player", spawnPoint.position, spawnPoint.rotation);
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.LoadLevel("GameScene"); // 비마스터도 명시적으로 로드
+        }
+    }
+    public override void OnLeftRoom()
+    {
+        SceneManager.LoadScene("LobbyScene");
     }
 
     // 새로운 플레이어가 방에 입장하면 자동으로 호출되는 함수
@@ -66,5 +76,19 @@ public class PhotonRoomManager : MonoBehaviourPunCallbacks
     private string ParseMonsterName(string monsterObjectName)
     {
         return monsterObjectName.Split('(')[0]; // "Bear(Clone)" -> "Bear"
+    }
+
+    // 방장이 바뀌었을 떄 커스텀 방 프로퍼티를 업데이트 해줌 (방장 닉네임)
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        OnRoomInfoChanged?.Invoke();
+
+        if (!newMasterClient.IsLocal) return;
+
+        ExitGames.Client.Photon.Hashtable newRoomInfos = new ExitGames.Client.Photon.Hashtable
+        {
+            { MasterNickname, PhotonNetwork.NickName }
+        };
+        PhotonNetwork.CurrentRoom.SetCustomProperties(newRoomInfos);
     }
 }

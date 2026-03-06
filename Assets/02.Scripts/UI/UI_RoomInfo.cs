@@ -1,9 +1,10 @@
-﻿using Photon.Realtime;
+﻿using Photon.Pun;
+using Photon.Realtime;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_RoomInfo : MonoBehaviour
+public class UI_RoomInfo : MonoBehaviourPunCallbacks
 {
     [SerializeField] private TextMeshProUGUI _roomNameText;
     [SerializeField] private TextMeshProUGUI _roomCapacityText;
@@ -29,6 +30,7 @@ public class UI_RoomInfo : MonoBehaviour
 
     private void ExitRoom()
     {
-        // todo 구현예정
+        PhotonNetwork.LeaveRoom();
     }
+
 }

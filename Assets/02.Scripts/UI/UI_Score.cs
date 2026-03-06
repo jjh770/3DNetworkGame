@@ -9,8 +9,25 @@ public class UI_Score : MonoBehaviourPunCallbacks
     [SerializeField] private Transform _container;
     private List<UI_ScoreItem> _scoreItems = new();
 
-    public override void OnJoinedRoom()
+    //public override void OnJoinedRoom()
+    private void Start()
     {
+        // 기존 항목 정리 (이전 씬에서 남아있는 Item을 또 호출할 수 있으므로 정리해준다.)
+        //  OnJoinedRoom이 같은 UI_Score 인스턴스에서 두 번 호출될 경우:
+        // 첫 번째 OnJoinedRoom → _scoreItems에 4개 추가 → [item0, item1, item2, item3]
+        // 두 번째 OnJoinedRoom → 또 4개 추가           → [item0, item1, item2, item3, item4, item5, item6, item7]
+        // 리스트가 누적되기 때문에 이를 방지하는 방어 코드입니다.
+        //foreach (var item in _scoreItems)
+        //{
+        //    if (item != null)
+        //    {
+        //        Destroy(item.gameObject);
+        //    }
+        //}
+        //_scoreItems.Clear();
+
+        if (!PhotonNetwork.InRoom) return;
+
         int maxPlayers = PhotonNetwork.CurrentRoom.MaxPlayers;
 
         for (int i = 0; i < maxPlayers; i++)
@@ -23,22 +40,18 @@ public class UI_Score : MonoBehaviourPunCallbacks
         ScoreManager.OnScoreChanged += Refresh;
         Refresh();
     }
+
+    private void OnDestroy()
+    {
+        ScoreManager.OnScoreChanged -= Refresh;
+    }
+
     private void Refresh()
     {
         var scores = ScoreManager.Instance.Scores;
 
         // 리드온리가 아니면 원본을 수정하므로 무결성 문제가 생긴다.
         List<ScoreData> scoreDatas = scores.Values.OrderByDescending(s => s.Score).ToList();
-
-        // 1. todo: 1등부터 3등까지 정렬     
-        //          - 정렬은 이미 매니저에서 해서 넘겨야 하나 vs
-        //          - UI에서 해야 하나...   (도메인 규칙에 따라 다르다.)
-        //          - 정리 과제: Linq 사용 
-        //          -             ㄴ 무엇인지, 언제쓰이는지, 장단점은 무엇인지
-
-        // 2. 점수 1,000점마다 플레이어 무기의 scale이 0.1씩 증가한다. (동기화)
-        // 3. 죽으면 점수의 반이 사라진다.
-        // 플레이어 수가 바뀌면 아이템 재생성
 
         for (int i = 0; i < _scoreItems.Count; i++)
         {

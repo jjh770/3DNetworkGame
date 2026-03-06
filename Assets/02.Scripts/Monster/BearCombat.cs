@@ -1,6 +1,5 @@
 ﻿using Photon.Pun;
 using System;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -24,45 +23,27 @@ public class BearCombat : MonoBehaviour, IDamageable
         _agent = GetComponent<NavMeshAgent>();
     }
 
+    public float GetAttackDamage()
+    {
+        return _stat.AttackDamage;
+    }
+
     public void StartAttack(Transform target, float attackRange)
     {
         _target = target;
         _attackRange = attackRange;
-        StartCoroutine(AttackRoutine());
-    }
-    public void StopAttack()
-    {
-        StopAllCoroutines();
-        _target = null;
-    }
-    private IEnumerator AttackRoutine()
-    {
         _agent.isStopped = true;
-        while (true)
-        {
-            yield return new WaitForSeconds(_stat.AttackWaitTime);
-            if (_target != null)
-            {
-                float distance = Vector3.Distance(transform.position, _target.position);
-                if (distance <= _attackRange)
-                {
-                    PhotonView targetView = _target.GetComponent<PhotonView>();
-                    targetView.RPC(nameof(PlayerHitAbility.TakeDamage), RpcTarget.All,
-                        _stat.AttackDamage, PhotonNetwork.MasterClient.ActorNumber, AttackerType.Monster);
-                }
-            }
-            yield return new WaitForSeconds(_stat.AttackDelayTime);
+    }
 
-            float dist = _target != null
-                ? Vector3.Distance(transform.position, _target.position)
-                : float.MaxValue;
+    public void OnAttackEnd()
+    {
+        float dist = _target != null
+            ? Vector3.Distance(transform.position, _target.position)
+            : float.MaxValue;
 
-            if (dist > _attackRange)
-            {
-                OnAttackFinished?.Invoke();
-                yield break;
-            }
-        }
+        if (dist > _attackRange)
+            OnAttackFinished?.Invoke();
+        // 범위 안이면 애니메이션 루프 → 자연스럽게 다음 공격
     }
 
     [PunRPC]
