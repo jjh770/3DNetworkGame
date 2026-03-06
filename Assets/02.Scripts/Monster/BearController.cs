@@ -17,6 +17,8 @@ public class BearController : MonoBehaviourPun, IPunObservable
     [Header("Monster Status")]
     [SerializeField] private BearState _currentState = BearState.Idle;
 
+    [SerializeField] private BearWeaponCollider _weaponCollider;
+
     private BearCombat _combat;
 
     private Animator _bearAnimator;
@@ -29,6 +31,9 @@ public class BearController : MonoBehaviourPun, IPunObservable
     private bool _isWaiting = false;
 
     public event Action OnHealthChanged;
+
+    private bool _isRotating = false;
+    private const float _rotateThreshold = 1f; // 1도 이상 차이날 때만 회전
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
@@ -157,9 +162,9 @@ public class BearController : MonoBehaviourPun, IPunObservable
     public void ChangeState(BearState newState)
     {
         if (_currentState == newState) return;                                     // 동일 상태 재진입 방지
-        if (_currentState == BearState.Hit && newState != BearState.Idle) return; // 피격 중엔 상태변경 제한
+        if (_currentState == BearState.Death) return; // Death는 탈출 불가
+        if (_currentState == BearState.Hit && newState != BearState.Idle && newState != BearState.Death) return;
         StopAllCoroutines();
-        _combat.StopAttack();
         _isWaiting = false;
         _currentState = newState;
 
@@ -176,14 +181,37 @@ public class BearController : MonoBehaviourPun, IPunObservable
         {
             _combat.StartAttack(_target, _attackRange);
         }
+        else if (newState == BearState.Wait)
+        {
+            StartCoroutine(WaitToChase());
+        }
         else if (newState == BearState.Death)
         {
             _agent.isStopped = true;
             GetComponent<Collider>().enabled = false; // 시체 공격 방지
+            _weaponCollider.DisableCollider();
             StartCoroutine(DestroyAfterDeath());
         }
     }
 
+    private IEnumerator WaitToChase()
+    {
+        yield return new WaitForSeconds(5f);
+        ChangeState(BearState.Chase);
+    }
+    // 애니메이션 이벤트: 타격 시작 프레임
+    public void OnAttackStart()
+    {
+        _weaponCollider.EnableCollider();
+    }
+
+    // 애니메이션 이벤트: 타격 끝 프레임
+    public void OnAttackEnd()
+    {
+        _weaponCollider.DisableCollider();
+        if (!PhotonNetwork.IsMasterClient) return;
+        _combat.OnAttackEnd();
+    }
 
     IEnumerator WaitAndPatrol()
     {
@@ -203,6 +231,7 @@ public class BearController : MonoBehaviourPun, IPunObservable
 
     void FindNearestPlayer()
     {
+        _target = null; // 추가
         float minDist = float.MaxValue;
         foreach (PlayerController player in PlayerController.All)
         {
@@ -251,17 +280,41 @@ public class BearController : MonoBehaviourPun, IPunObservable
     }
     private void ResetAfterHit()
     {
+        if (Stat.IsDead) return;
         _agent.updateRotation = true;            // 회전 복구
         ChangeState(BearState.Idle);
     }
 
     private void RotationToTarget()
     {
-        if (_target != null)
+        if (_target == null) return;
+        Vector3 dir = (_target.position - transform.position).normalized;
+        dir.y = 0f;
+        Quaternion targetRot = Quaternion.LookRotation(dir);
+
+        float angle = Quaternion.Angle(transform.rotation, targetRot);
+
+        if (angle > _rotateThreshold)
         {
-            Vector3 dir = (_target.position - transform.position).normalized;
-            dir.y = 0f;
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(dir), _agent.angularSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRot, _agent.angularSpeed * Time.deltaTime);
+            SetRotating(true);
         }
+        else
+        {
+            SetRotating(false);
+        }
+    }
+
+    private void SetRotating(bool isRotate)
+    {
+        if (_isRotating == isRotate) return; // 변화 없으면 RPC 호출 방지
+        _isRotating = isRotate;
+        photonView.RPC("RPC_SetRotating", RpcTarget.All, isRotate);
+    }
+
+    [PunRPC]
+    private void RPC_SetRotating(bool isRotate)
+    {
+        _bearAnimator.SetBool("IsRotating", isRotate);
     }
 }
