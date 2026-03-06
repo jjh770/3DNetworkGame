@@ -24,6 +24,6 @@ public class BearWeaponCollider : MonoBehaviour
         if (hitAbility == null) return;
 
         hitAbility.GetComponentInParent<PhotonView>().RPC(nameof(PlayerHitAbility.TakeDamage), RpcTarget.All,
-            _combat.Stat.AttackDamage, _combat.GetComponent<PhotonView>().ViewID, AttackerType.Monster);
+            _combat.GetAttackDamage(), _combat.GetComponent<PhotonView>().ViewID, AttackerType.Monster);
     }
 }

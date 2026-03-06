@@ -6,7 +6,6 @@ using UnityEngine.AI;
 public class BearCombat : MonoBehaviour, IDamageable
 {
     private BearStat _stat;
-    public BearStat Stat => _stat;
     private NavMeshAgent _agent;
 
     private Transform _target;
@@ -22,6 +21,11 @@ public class BearCombat : MonoBehaviour, IDamageable
     {
         _stat = stat;
         _agent = GetComponent<NavMeshAgent>();
+    }
+
+    public float GetAttackDamage()
+    {
+        return _stat.AttackDamage;
     }
 
     public void StartAttack(Transform target, float attackRange)

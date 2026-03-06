@@ -49,11 +49,11 @@ public class UI_RoomSetting : MonoBehaviour
             MaxPlayers = 20,
             CustomRoomProperties = new ExitGames.Client.Photon.Hashtable
             {
-                { "MasterNickname", PhotonNetwork.NickName }
+                { PhotonRoomManager.MasterNickname, PhotonNetwork.NickName }
             },
             IsVisible = true,
             IsOpen = true,
-            CustomRoomPropertiesForLobby = new string[] { "MasterNickname" },
+            CustomRoomPropertiesForLobby = new string[] { PhotonRoomManager.MasterNickname },
         };
         PhotonNetwork.CreateRoom(roomName, roomOptions);
 
