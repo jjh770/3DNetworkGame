@@ -17715,6 +17715,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1935687219}
   - component: {fileID: 1935687218}
+  - component: {fileID: 1935687220}
   m_Layer: 0
   m_Name: GameScene
   m_TagString: Untagged
@@ -17734,6 +17735,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c33b51b0bfe111842a1ab9e2277d4b13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameScene
+  _prefabPool: {fileID: 1935687220}
 --- !u!4 &1935687219
 Transform:
   m_ObjectHideFlags: 0
@@ -17749,6 +17751,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1935687220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1935687217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e2065a6f7d929d419e0bf6fb8b6bf78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AddressablePunPrefabPool
 --- !u!1001 &1941238884
 PrefabInstance:
   m_ObjectHideFlags: 0

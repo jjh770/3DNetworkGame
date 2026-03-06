@@ -55,6 +55,11 @@ public class UI_RoomSetting : MonoBehaviour
             IsOpen = true,
             CustomRoomPropertiesForLobby = new string[] { PhotonRoomManager.MasterNickname },
         };
+
+        PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable
+        {
+            { "gender", _genderType.ToString() }
+        });
         PhotonNetwork.CreateRoom(roomName, roomOptions);
 
         // 룸 옵션 정의
