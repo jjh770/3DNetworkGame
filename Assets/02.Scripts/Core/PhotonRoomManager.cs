@@ -7,6 +7,8 @@ public class PhotonRoomManager : MonoBehaviourPunCallbacks
 {
     public static PhotonRoomManager Instance { get; private set; }
 
+    public const string MasterNickname = "MasterNickname"; // 방장 닉네임을 저장하는 커스텀 프로퍼티 키
+
     private Room _room;
     public Room Room => _room;
 
@@ -85,7 +87,7 @@ public class PhotonRoomManager : MonoBehaviourPunCallbacks
 
         ExitGames.Client.Photon.Hashtable newRoomInfos = new ExitGames.Client.Photon.Hashtable
         {
-            { "MasterNickname", PhotonNetwork.NickName }
+            { MasterNickname, PhotonNetwork.NickName }
         };
         PhotonNetwork.CurrentRoom.SetCustomProperties(newRoomInfos);
     }

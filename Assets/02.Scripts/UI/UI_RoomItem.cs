@@ -24,7 +24,7 @@ public class UI_RoomItem : MonoBehaviourPunCallbacks
 
         _roomNameTextUI.text = roomInfo.Name;
 
-        var nickName = roomInfo.CustomProperties.TryGetValue("MasterNickname", out var name) ? name.ToString() : "알 수 없음";
+        var nickName = roomInfo.CustomProperties.TryGetValue(PhotonRoomManager.MasterNickname, out var name) ? name.ToString() : "알 수 없음";
         _masterNicknameTextUI.text = nickName;
         _roomCapacityTextUI.text = $"{roomInfo.PlayerCount} / {roomInfo.MaxPlayers}";
     }
