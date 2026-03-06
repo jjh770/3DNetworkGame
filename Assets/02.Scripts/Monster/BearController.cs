@@ -235,7 +235,7 @@ public class BearController : MonoBehaviourPun, IPunObservable
         float minDist = float.MaxValue;
         foreach (PlayerController player in PlayerController.All)
         {
-            if (player.Stat.IsDead) continue;
+            if (player == null || player.Stat.IsDead) continue;
 
             float dist = Vector3.Distance(transform.position, player.transform.position);
             if (dist < minDist)
